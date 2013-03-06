@@ -1,5 +1,10 @@
 package pl.parser.nbp;
-
+/**
+ * represents single "pozycja" from parsed xml file
+ * @author Tomasz Lelek
+ *
+ *
+ */
 public class Currency {
 
 		private String kod_waluty;

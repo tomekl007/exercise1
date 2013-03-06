@@ -2,9 +2,12 @@ package pl.parser.nbp;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -12,6 +15,15 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * 
+ * @author Tomasz Lelek
+ * Helper methods converting date, dowload files form web,
+ * saving output and performing cleanup
+ * 
+ *
+ */
 public class Utility {
 	
 	
@@ -51,7 +63,7 @@ public class Utility {
     		{
     			fout.write(data, 0, count);
     		}
-    		System.out.println(data);
+    		//System.out.println(data);
     	}
     	finally
     	{
@@ -75,7 +87,7 @@ public class Utility {
 			  String strLine;
 			  //Read File Line By Line
 			  while ((strLine = br.readLine()) != null)   {
-				  System.out.println(strLine);
+				
 				  
 				  for(String s : adressesBeforeSearch) {
 				  if( strLine.contains(s) && strLine.contains("c") 	 )
@@ -114,8 +126,7 @@ public class Utility {
 		}
 		
 		
-			System.out.println("->>>>>>>>>");
-			System.out.println(adressesBeforeSearch);
+		
 		
 	}
 	
@@ -158,4 +169,58 @@ public class Utility {
 	}
 
     
+	
+	public static void saveOutput(String path, String text){
+		try{
+			  // Create file 
+			  FileWriter fstream = new FileWriter(path);
+			  BufferedWriter out = new BufferedWriter(fstream);
+			  String[] toSave = text.split(" ");
+			  for(String s : toSave){
+				  out.write(s);
+				  out.newLine();
+			  }
+			  
+			  
+			  //Close the output stream
+			  out.close();
+			  }catch (Exception e){//Catch exception if any
+			  System.err.println("Error: " + e.getMessage());
+			  }
+		
+	}
+	
+	
+	public static void performCleanup(List<String> adresses){
+	
+    for(String fileName: adresses){
+    // A File object to represent the filename
+    File f = new File(fileName);
+
+    // Make sure the file or directory exists and isn't write protected
+    if (!f.exists())
+      throw new IllegalArgumentException(
+          "Delete: no such file or directory: " + fileName);
+
+    if (!f.canWrite())
+      throw new IllegalArgumentException("Delete: write protected: "
+          + fileName);
+
+    // If it is a directory, make sure it is empty
+    if (f.isDirectory()) {
+      String[] files = f.list();
+      if (files.length > 0)
+        throw new IllegalArgumentException(
+            "Delete: directory not empty: " + fileName);
+    }
+
+    // Attempt to delete it
+    boolean success = f.delete();
+
+    if (!success)
+      throw new IllegalArgumentException("Delete: deletion failed");
+    	}
+	}
+	
+	
 }

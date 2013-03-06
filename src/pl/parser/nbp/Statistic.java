@@ -1,9 +1,17 @@
 package pl.parser.nbp;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
-import com.sun.org.apache.bcel.internal.generic.CPInstruction;
 
+/**
+ * 
+ *
+ * @author Tomasz Lelek
+ * methods to count avarage course (buy/sell) and
+ * standard deviation
+ *
+ */
 public class Statistic {
 
 	public static float avarageBuyCourse(List<Currency> baseCurrencies) {
@@ -15,7 +23,7 @@ public class Statistic {
 			count++;
 		}
 		
-		System.out.println(sum + "   - //   " + count     );
+	
 		return sum/count;
 	}
 	
@@ -28,7 +36,7 @@ public class Statistic {
 			count++;
 		}
 		
-		System.out.println(sum + "   - //   " + count     );
+		
 		return sum/count;
 	}
 	
@@ -45,9 +53,19 @@ public class Statistic {
 		
 		variance=temp/count;
 	    
-		return Math.sqrt(variance);
+		return roundFourDecimals(Math.sqrt(variance) );
 	}
    	
+	static double roundFourDecimals(double d) {
+    	DecimalFormat twoDForm = new DecimalFormat("#.####");
+	return Double.valueOf(twoDForm.format(d));
+}
+	
+	static double roundFourDecimals(float d) {
+    	DecimalFormat twoDForm = new DecimalFormat("#.####");
+	return Double.valueOf(twoDForm.format(d));
+}
+
 
 
 }
