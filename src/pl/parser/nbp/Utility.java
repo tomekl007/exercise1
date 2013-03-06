@@ -14,6 +14,9 @@ import java.util.List;
 
 public class Utility {
 	
+	
+	private static String baseAddress = "http://www.nbp.pl/kursy/xml/";
+	
 	private static List<String> adressesBeforeSearch=new LinkedList<>();
 
 	 
@@ -75,7 +78,7 @@ public class Utility {
 				  System.out.println(strLine);
 				  
 				  for(String s : adressesBeforeSearch) {
-				  if( strLine.contains(s) 	 )
+				  if( strLine.contains(s) && strLine.contains("c") 	 )
 					  adressesAfterSearch.add(strLine);				  
 				  }
 			  }
@@ -97,12 +100,15 @@ public class Utility {
 			int[] to = customParseDate(dateTo);
 			
 		while(!(from[0]==to[0]&&from[1]==to[1]&&from[2]==to[2]) ){
-			if(from[2]<=31){
+			if(from[2]<=30){
 				from[2]++;
 			}else if(from[1]<=12){
 				from[1]++;
-			}else if(from[0]<=currentYear){
+				from[2]=1;
+			}else if(from[0]<currentYear){
 				from[0]++;
+				from[2]=1;
+				from[1]=1;
 			}
 			adressesBeforeSearch.add(dateConvertToString(from));
 		}
@@ -145,6 +151,11 @@ public class Utility {
     	return result;
     	
     }
+
+	public static String buildUrl(String address) {
+		
+		return baseAddress+address+".xml";
+	}
 
     
 }
